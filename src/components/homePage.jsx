@@ -10,6 +10,10 @@ function HomePage() {
   const [data, setData] = useState(null);
   const[filtered,setFiltered]=useState(null)
   const [loading, setLoading] = useState(true);
+  const [sortedEvents,setSortedEvents]=useState(null)
+
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,6 +22,7 @@ function HomePage() {
 
         setData(response.data);
         setFiltered(response.data)
+        
         setLoading(false);
       } catch (error) {
         console.log('Client error trying to get events:', error);
@@ -29,32 +34,29 @@ function HomePage() {
   }, []);
 
   function handleSearch(input) {
-        console.log(input);
-        setFiltered(data.filter((event) => event.name.includes(input)));
-      
-      
+        setFiltered(data.filter((event) => event.name.includes(input)));   
 }
+function sortHandle(sort){
+    if(sort==='date')
+    {const sorted = filtered.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
+    setFiltered(sorted)}
+    else if(sort==='popular')
+    {const sorted= filtered.slice().sort((a, b) => b.persons.length - a.persons.length)
+        setFiltered(sorted);
+    }}
+
 
 
   return (
     <Container>
-      <AppBarHeader filterEvents={handleSearch}/>
-      <Box sx={{ flexGrow: 1}}>
-      <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ color:'white',fontSize:'xx-large',flexGrow: 1, display: { xs: 'none', sm: 'block' }}}
-          >
-        Events coming soon
-      </Typography>
-      </Box>
+      <AppBarHeader filterEvents={handleSearch} />
+      
       {loading ? (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
           <CircularProgress />
         </div>
       ) : (
-        <ListEventsShow events={filtered} />
+        <ListEventsShow events={filtered} sortHandle={sortHandle} />
       )}
     </Container>
   );

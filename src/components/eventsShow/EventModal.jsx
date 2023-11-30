@@ -16,7 +16,6 @@ const [type,setType] = useState('success')
     const [loading, setLoading] = useState(true); 
 
 
-
 useEffect(()=>{
     async function getData(){
         try{
@@ -95,6 +94,7 @@ async function handlesave(){
             <Typography variant='h6'>
                {event.describe}
             </Typography>
+
             <Typography variant='h6'>{`${new Date(event.date).toLocaleDateString()}
              ${new Date(event.date).getHours().toString()}:${new Date(event.date).getMinutes().toString().padStart(2, '0')} `}</Typography>
             </div>

@@ -9,6 +9,7 @@ import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import Options from './options';
+import FilterBy from './filterOptions';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -74,6 +75,7 @@ function handleChange(event){
           >
             EVENT MANEGER
           </Typography>
+          
           {filterEvents&&
           <Search>
             <SearchIconWrapper>
