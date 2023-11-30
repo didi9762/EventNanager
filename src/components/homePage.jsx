@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import AppBarHeader from './header';
 import ListEventsShow from './eventsShow/ListEvents';
-import { Container, Typography, CircularProgress } from '@mui/material';
+import {Box, Container, Typography, CircularProgress } from '@mui/material';
 
 const serverBaseUrl = 'http://localhost:3000/';
 
@@ -15,6 +15,7 @@ function HomePage() {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${serverBaseUrl}rout/getevents`);
+
         setData(response.data);
         setFiltered(response.data)
         setLoading(false);
@@ -38,9 +39,16 @@ function HomePage() {
   return (
     <Container>
       <AppBarHeader filterEvents={handleSearch}/>
-      <Typography variant="h2" align="center" gutterBottom>
-        Events
+      <Box sx={{ flexGrow: 1}}>
+      <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ color:'white',fontSize:'xx-large',flexGrow: 1, display: { xs: 'none', sm: 'block' }}}
+          >
+        Events coming soon
       </Typography>
+      </Box>
       {loading ? (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
           <CircularProgress />
