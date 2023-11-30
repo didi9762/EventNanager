@@ -56,6 +56,7 @@ async function handlesave(){
           );
          
           if(res.data==='already exist'){showMessage('ticket already saved','error')}
+          else if(res.data==='full'){showMessage('no more avelible tickets','error')}
           else  if(res.status==200){showMessage('sucssusfull','success')}
     }catch(e){'error save palce',e}
 }
