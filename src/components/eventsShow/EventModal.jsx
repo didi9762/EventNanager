@@ -15,11 +15,7 @@ const [type,setType] = useState('success')
     const [event,setEvent]= useState(null)   
     const [loading, setLoading] = useState(true); 
 
-    const formattedDate = new Date(event.date).toLocaleDateString();
-const dateObject = new Date(event.date);
-const hours = dateObject.getHours().toString()
-const minutes = dateObject.getMinutes().toString().padStart(2, '0');
-   
+
 useEffect(()=>{
     async function getData(){
         try{
@@ -27,6 +23,8 @@ useEffect(()=>{
             const data = await response.data
             setEvent(data)
             setLoading(false)
+
+       
         }catch(e){console.log('error try get event data:',e);setLoading(true);}
        }
     
@@ -96,7 +94,9 @@ async function handlesave(){
             <Typography variant='h6'>
                {event.describe}
             </Typography>
-            <Typography variant='h6'>{`${formattedDate} ${hours}:${minutes} `}</Typography>
+
+            <Typography variant='h6'>{`${new Date(event.date).toLocaleDateString()}
+             ${new Date(event.date).getHours().toString()}:${new Date(event.date).getMinutes().toString().padStart(2, '0')} `}</Typography>
             </div>
          
          
