@@ -14,12 +14,13 @@ import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AppBarHeader from '../header';
 
+
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="http://localhost:5173/">
+        event manager
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -27,7 +28,6 @@ function Copyright() {
   );
 }
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -51,13 +51,14 @@ export default function UserDashboard() {
                   },
                 }
               )
-              
+              if(res.status!=200){window.location.href='http://localhost:3000/SignIn'}
               setData(res.data);
               setFiltered(res.data);
               setLoading(false)
                
         } catch (error) {
           console.log('Client error trying to get events:', error);
+          window.location.href='http://localhost:5173/SignIn'
           setLoading(true);
         }
       };
@@ -71,6 +72,15 @@ export default function UserDashboard() {
         
         
   }
+  function sortHandle(sort){
+    if(sort==='date')
+    {const sorted = filtered.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
+    setFiltered(sorted)}
+    else if(sort==='popular')
+    {const sorted= filtered.slice().sort((a, b) => b.persons.length - a.persons.length)
+        setFiltered(sorted);
+    }}
+
 
 
 
@@ -112,8 +122,8 @@ export default function UserDashboard() {
               spacing={2}
               justifyContent="center"
             >
-              <Button variant="contained">Main call to action</Button>
-              <Button variant="outlined">Secondary action</Button>
+              <Button variant="contained" onClick={()=>{sortHandle('date')}}>sclosest events</Button>
+              
             </Stack>
 
 
@@ -141,7 +151,7 @@ export default function UserDashboard() {
           color="text.secondary"
           component="p"
         >
-          Something here to give the footer a purpose!
+          project event managment
         </Typography>
         <Copyright />
       </Box></Container>)}
