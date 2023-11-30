@@ -14,7 +14,9 @@ const [snackbarMessage, setSnackbarMessage] = useState('');
 const [type,setType] = useState('success')
     const [event,setEvent]= useState(null)   
     const [loading, setLoading] = useState(true); 
-   
+
+
+
 useEffect(()=>{
     async function getData(){
         try{
@@ -22,6 +24,8 @@ useEffect(()=>{
             const data = await response.data
             setEvent(data)
             setLoading(false)
+
+       
         }catch(e){console.log('error try get event data:',e);setLoading(true);}
        }
     
@@ -57,6 +61,7 @@ async function handlesave(){
          
           if(res.data==='already exist'){showMessage('ticket already saved','error')}
           else if(res.data==='full'){showMessage('no more avelible tickets','error')}
+          else if(res.data==='age limited'){showMessage('you are to young for that','error')}
           else  if(res.status==200){showMessage('sucssusfull','success')}
     }catch(e){'error save palce',e}
 }
@@ -90,10 +95,13 @@ async function handlesave(){
             <Typography variant='h6'>
                {event.describe}
             </Typography>
+            <Typography variant='h6'>{`${new Date(event.date).toLocaleDateString()}
+             ${new Date(event.date).getHours().toString()}:${new Date(event.date).getMinutes().toString().padStart(2, '0')} `}</Typography>
             </div>
          
          
-            <div className='reserve' style={{height:'200px',background:'white'}}>
+            <div className='reserve' style={{height:'200px',background:'white',padding:'10px'}}>
+                <Typography variant='h5'>{`age limited:${event.minAge?event.minAge:'18'}`}</Typography>
                 <Typography variant='h5'>PRICE : {event.price}</Typography>
                 <IconButton onClick={handlesave}>
                     save a ticket
