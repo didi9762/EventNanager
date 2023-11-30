@@ -35,10 +35,12 @@ position:'absolute',marginTop:30,width:'600px',height:'30px',textAlign:'center',
           </Typography>
           <Typography color="textSecondary" gutterBottom>
             {event.free ? 'Free' : `Price: ${event.price}`}
-            {`    ${freeTicket} avalible ticket`}
+            <Typography color={freeTicket<4?'red':'black'}>
+            {freeTicket!==0?`${freeTicket} avalible ticket`:'sold out'}</Typography>
             
           </Typography>
           <Typography>{`${formattedDate} at:${hours}:${minutes}`}</Typography>
+          <Typography>{`age limit:${event.minAge?event.minAge:'18'}`}</Typography>
         </CardContent>
       </Card>
       </Link>
