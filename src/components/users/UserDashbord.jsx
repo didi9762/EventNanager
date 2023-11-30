@@ -125,7 +125,7 @@ export default function UserDashboard() {
           {filtered !== null &&
             filtered.map((event,i) => (
               <Grid item key={i} xs={12} sm={6} md={4}>
-               <EventCard event={event}/>
+               <EventCard event={event} userShow={true}/>
               </Grid>
             ))}
           </Grid>

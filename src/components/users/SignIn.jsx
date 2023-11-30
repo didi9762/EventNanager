@@ -19,7 +19,7 @@ function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="http://localhost:3000/">
         Event Manager
       </Link>{' '}
       {new Date().getFullYear()}
@@ -35,23 +35,23 @@ const defaultTheme = createTheme();
 export default function SignIN() {
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    const data = new FormData(event.currentTarget);;
     async function signin(datauser){
         try{
             const response = await axios.post('http://localhost:3000/users/signin',datauser)
-            if (response.status==200) {
-            const token = response.data
+            if (response.data.message==='correct') {
+            const token = response.data.token
             localStorage.setItem('event',token)
             window.location.href = localStorage.getItem('lasturl')
             }
-            else{console.log(response.status);}
+            else{console.log(response.data);}
         }catch(e){console.log('error try to log in:',e);}
     }
     const dataUser = {
         userName: data.get('userName'),
         password: data.get('password'),
+        remmember:data.get('remember')
       }
-      console.log(dataUser);
     signin(dataUser)
     
   };
@@ -99,6 +99,9 @@ export default function SignIN() {
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
+              id='remember'
+              name='remember'
+    
             />
             <Button
               type="submit"
