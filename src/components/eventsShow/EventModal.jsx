@@ -5,24 +5,30 @@ import { useEffect, useState } from 'react';
 import AppBarHeader from '../header';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import Rating1 from './rating';
+import { Login } from '@mui/icons-material';
 
 
 export default function EventPage(props){
 const {id}= useParams()
+const [posted,setPosted]=useState(false)
 const [openSnackbar, setOpenSnackbar] = useState(false);
 const [snackbarMessage, setSnackbarMessage] = useState('');
 const [type,setType] = useState('success')
     const [event,setEvent]= useState(null)   
     const [loading, setLoading] = useState(true); 
-
+    const [location,setLocation]= useState(null)
+    const[obj,setObj] = useState(null) 
 
 useEffect(()=>{
     async function getData(){
         try{
             const response = await axios.get(`http://localhost:3000/rout/getevent/${id}`)
             const data = await response.data
-            setEvent(data)
+            setEvent(data.event)
+            setObj(data)
             setLoading(false)
+            getLocation(id)
 
        
         }catch(e){console.log('error try get event data:',e);setLoading(true);}
@@ -30,6 +36,20 @@ useEffect(()=>{
     
      getData()
 },[])
+
+function change(){
+setPosted(true)
+}
+
+async function getLocation(id){
+try{
+    const response= await axios.get(`http://localhost:3000/rout/getmap/${id}`)
+    if (response.data==='no location'){return}
+    const blob = await response.blob()
+    const urlImg =  URL.createObjectURL(blob)
+    setLocation(urlImg)
+}catch(e){console.log('error try get map',e);}
+}
 
 const showMessage = (message,typeM) => {
     setType(typeM)
@@ -106,6 +126,13 @@ async function handlesave(){
                 <IconButton onClick={handlesave}>
                     save a ticket
                 </IconButton>
+         </div>
+         <div>
+            {location?<img src={location}></img>:null}
+         </div>
+         <div className='rating' >
+            
+        <Rating1 event={obj} change={change} posted={posted}/>
          </div>
          </Container>
           </Grid>

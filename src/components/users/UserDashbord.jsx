@@ -67,7 +67,7 @@ export default function UserDashboard() {
     }, []);
   
     function handleSearch(input) {
-          console.log(input);
+       
           setFiltered(data.filter((event) => event.name.includes(input)));
         
         

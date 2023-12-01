@@ -58,7 +58,6 @@ export default function SignUp() {
         lastName:data.get('lastname'),
         age:data.get('age')
     });
-    console.log(datauser);
     signin(datauser)
   };
 
