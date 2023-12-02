@@ -2,7 +2,7 @@ import { Container, TextField, Typography,Button,Grid } from "@mui/material";
 import {useEffect,useState}from 'react';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
@@ -34,10 +34,17 @@ try{
         },
       })
     if(response.data==='rated'){showMessage('already rated thank you','error')}
+    if (response.data==='No token provided') {window.location.href='http://localhost:5173/SignIn' }
     else{showMessage('thank you','success')}
-    // change()
    
-}catch(e){console.log('error try post rate',e);}
+    }catch (error) {
+      console.error('Error message:', error);
+      if (error.response.data.message.includes('token')) {
+        window.location.href = 'http://localhost:5173/SignIn';
+      }
+    }
+    
+    
 }
 
 const showMessage = (message,type) => {
