@@ -34,7 +34,7 @@ const defaultTheme = createTheme();
 
 export default function UserDashboard() {
 
-
+  const[user,setUser]= useState(null)
     const [data, setData] = useState(null);
     const[filtered,setFiltered]=useState(null)
     const [loading, setLoading] = useState(true);
@@ -52,8 +52,9 @@ export default function UserDashboard() {
                 }
               )
               if(res.status!=200){window.location.href='http://localhost:3000/SignIn'}
-              setData(res.data);
-              setFiltered(res.data);
+              setUser(res.data.user)
+              setData(res.data.events);
+              setFiltered(res.data.events);
               setLoading(false)
                
         } catch (error) {
@@ -106,6 +107,7 @@ export default function UserDashboard() {
           }}
         >
           <Container maxWidth="sm">
+            <Typography variant='h3' align='center' mb={5}>{`${user.firstName} ${user.lastName}`}</Typography>
             <Typography
               component="h1"
               variant="h2"
