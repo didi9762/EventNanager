@@ -6,7 +6,6 @@ import AppBarHeader from '../header';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Rating1 from './rating';
-import { Login } from '@mui/icons-material';
 
 
 export default function EventPage(props){
@@ -25,7 +24,7 @@ useEffect(()=>{
         try{
             const response = await axios.get(`http://localhost:3000/rout/getevent/${id}`)
             const data = await response.data
-            setEvent(data.event)
+            setEvent(data)
             setObj(data)
             setLoading(false)
             getLocation(id)
@@ -38,17 +37,17 @@ useEffect(()=>{
 },[])
 
 function change(){
-setPosted(true)
+setPosted()
 }
 
 async function getLocation(id){
-try{
-    const response= await axios.get(`http://localhost:3000/rout/getmap/${id}`)
-    if (response.data==='no location'){return}
-    const blob = await response.blob()
-    const urlImg =  URL.createObjectURL(blob)
-    setLocation(urlImg)
-}catch(e){console.log('error try get map',e);}
+// try{
+//     const response= await axios.get(`http://localhost:3000/rout/getmap/${id}`)
+//     if (response.data==='no location'){return}
+//     const blob = await response.blob()
+//     const urlImg =  URL.createObjectURL(blob)
+//     setLocation(urlImg)
+// }catch(e){console.log('error try get map',e);}
 }
 
 const showMessage = (message,typeM) => {
